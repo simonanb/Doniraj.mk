@@ -1,17 +1,92 @@
 @import "tailwindcss";
 
+/* ── Design tokens ───────────────────────────────────────────────────────────── */
+:root {
+  --color-primary:      #FF6B4A;
+  --color-primary-dark: #E8572E;
+  --color-navy:         #1A1A2E;
+  --color-cream:        #FFF9F0;
+  --color-border:       #EDE5D8;
+  --color-purple:       #7B4FFF;
+  --color-purple-dark:  #6340CC;
+  --color-error:        #E74C3C;
+  --color-success:      #1ABC9C;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.07);
+  --shadow-lg: 0 24px 80px rgba(0,0,0,0.20);
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
-  font-family: var(--font-nunito), 'Nunito', sans-serif;
+  font-family: var(--font-montserrat), 'Montserrat', sans-serif;
   background-color: #FFF9F0;
   color: #1A1A2E;
   margin: 0;
   padding: 0;
 }
 
+/* ── Focus rings (keyboard accessibility) ────────────────────────────────────── */
+:focus-visible {
+  outline: 2.5px solid #FF6B4A;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Skip to content ─────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  padding: 10px 20px;
+  background: #1A1A2E;
+  color: white;
+  font-family: var(--font-montserrat), 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  border-radius: 0 0 10px 10px;
+  z-index: 10000;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 0;
+  outline: 2.5px solid #FF6B4A;
+  outline-offset: 2px;
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Skeleton shimmer ────────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+
+/* ── Mobile sidebar ──────────────────────────────────────────────────────────── */
+.mobile-menu-btn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -26,26 +101,45 @@ body {
   border-radius: 3px;
 }
 
+/* ── Font inheritance ────────────────────────────────────────────────────────── */
+input, textarea, button, select {
+  font-family: var(--font-montserrat), 'Montserrat', sans-serif;
+}
+
+/* ── Keyframes ───────────────────────────────────────────────────────────────── */
 @keyframes slideInRight {
   from { transform: translateX(100%); }
-  to { transform: translateX(0); }
+  to   { transform: translateX(0); }
 }
 
 @keyframes slideUpFade {
   from { transform: translateX(-50%) translateY(16px); opacity: 0; }
-  to { transform: translateX(-50%) translateY(0); opacity: 1; }
+  to   { transform: translateX(-50%) translateY(0);    opacity: 1; }
 }
 
 @keyframes scaleIn {
   from { transform: scale(0.96); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  to   { transform: scale(1);    opacity: 1; }
 }
 
 @keyframes slideUpSheet {
   from { transform: translateY(100%); }
-  to { transform: translateY(0); }
+  to   { transform: translateY(0); }
 }
 
-input, textarea, button, select {
-  font-family: var(--font-nunito), 'Nunito', sans-serif;
+@keyframes float {
+  0%, 100% { transform: translateY(0px)   rotate(0deg); }
+  33%       { transform: translateY(-18px) rotate(4deg); }
+  66%       { transform: translateY(-8px)  rotate(-3deg); }
+}
+
+@keyframes floatReverse {
+  0%, 100% { transform: translateY(0px)   rotate(0deg); }
+  33%       { transform: translateY(-12px) rotate(-5deg); }
+  66%       { transform: translateY(-22px) rotate(3deg); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

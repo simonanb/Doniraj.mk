@@ -17,6 +17,7 @@ export interface DonationItem {
   createdAt: string;
   createdAtISO?: string;
   interestedCount: number;
+  userId?: string;
 }
 
 export interface ChatMessage {
