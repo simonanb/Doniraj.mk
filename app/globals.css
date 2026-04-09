@@ -1,17 +1,93 @@
 @import "tailwindcss";
 
+/* ── Design tokens ───────────────────────────────────────────────────────────── */
+:root {
+  --color-primary:      #fe613e;
+  --color-primary-dark: #d44e2e;
+  --color-navy:         #0f52a1;
+  --color-navy-dark:    #0a3d7a;
+  --color-cream:        #FFF9F0;
+  --color-lavender:     #e1b3ec;
+  --color-yellow:       #fdc31c;
+  --color-border:       #EDE5D8;
+  --color-error:        #E74C3C;
+  --color-success:      #1ABC9C;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.07);
+  --shadow-lg: 0 24px 80px rgba(0,0,0,0.20);
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
-  font-family: var(--font-nunito), 'Nunito', sans-serif;
+  font-family: var(--font-montserrat), 'Montserrat', sans-serif;
   background-color: #FFF9F0;
-  color: #1A1A2E;
+  color: #0f52a1;
   margin: 0;
   padding: 0;
 }
 
+/* ── Focus rings (keyboard accessibility) ────────────────────────────────────── */
+:focus-visible {
+  outline: 2.5px solid #fe613e;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Skip to content ─────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  padding: 10px 20px;
+  background: #0f52a1;
+  color: white;
+  font-family: var(--font-montserrat), 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  border-radius: 0 0 10px 10px;
+  z-index: 10000;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 0;
+  outline: 2.5px solid #fe613e;
+  outline-offset: 2px;
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Skeleton shimmer ────────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+
+/* ── Mobile sidebar ──────────────────────────────────────────────────────────── */
+.mobile-menu-btn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -26,26 +102,189 @@ body {
   border-radius: 3px;
 }
 
+/* ── Search placeholder ──────────────────────────────────────────────────────── */
+input::placeholder {
+  color: #aaa;
+  font-weight: 700;
+}
+
+/* ── Font inheritance ────────────────────────────────────────────────────────── */
+input, textarea, button, select {
+  font-family: var(--font-montserrat), 'Montserrat', sans-serif;
+}
+
+/* ── Button hover / active states ───────────────────────────────────────────── */
+button {
+  transition: filter 0.15s, transform 0.12s;
+}
+button:hover:not(:disabled) {
+  filter: brightness(0.88);
+}
+button:active:not(:disabled) {
+  filter: brightness(0.78);
+  transform: scale(0.96);
+}
+button:disabled {
+  cursor: not-allowed;
+}
+
+/* ── Anchor-buttons (landing CTAs) ──────────────────────────────────────────── */
+a.btn-cta {
+  transition: filter 0.15s, transform 0.12s;
+  display: inline-block;
+}
+a.btn-cta:hover {
+  filter: brightness(0.88);
+}
+a.btn-cta:active {
+  filter: brightness(0.78);
+  transform: scale(0.96);
+}
+
+/* ── Keyframes ───────────────────────────────────────────────────────────────── */
 @keyframes slideInRight {
   from { transform: translateX(100%); }
-  to { transform: translateX(0); }
+  to   { transform: translateX(0); }
 }
 
 @keyframes slideUpFade {
   from { transform: translateX(-50%) translateY(16px); opacity: 0; }
-  to { transform: translateX(-50%) translateY(0); opacity: 1; }
+  to   { transform: translateX(-50%) translateY(0);    opacity: 1; }
 }
 
 @keyframes scaleIn {
   from { transform: scale(0.96); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  to   { transform: scale(1);    opacity: 1; }
 }
 
 @keyframes slideUpSheet {
   from { transform: translateY(100%); }
-  to { transform: translateY(0); }
+  to   { transform: translateY(0); }
 }
 
-input, textarea, button, select {
-  font-family: var(--font-nunito), 'Nunito', sans-serif;
+@keyframes float {
+  0%, 100% { transform: translateY(0px)   rotate(0deg); }
+  33%       { transform: translateY(-18px) rotate(4deg); }
+  66%       { transform: translateY(-8px)  rotate(-3deg); }
+}
+
+@keyframes floatReverse {
+  0%, 100% { transform: translateY(0px)   rotate(0deg); }
+  33%       { transform: translateY(-12px) rotate(-5deg); }
+  66%       { transform: translateY(-22px) rotate(3deg); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── App page layout ─────────────────────────────────────────────────────────── */
+.home-page-padding {
+  padding: 32px 32px;
+}
+
+.page-padding {
+  padding: 28px 32px;
+}
+
+/* ── Landing page categories desktop/mobile split ───────────────────────────── */
+.categories-desktop {
+  display: block;
+}
+
+.categories-mobile {
+  display: none;
+}
+
+@media (max-width: 1240px) {
+  .categories-desktop {
+    display: none !important;
+  }
+  .categories-mobile {
+    display: grid !important;
+  }
+  .landing-categories {
+    min-height: unset !important;
+    padding: 64px 24px 80px !important;
+    overflow: visible !important;
+  }
+  .landing-categories > div:first-child { margin-bottom: 32px; }
+}
+
+/* ── Landing page feature cards grid ────────────────────────────────────────── */
+.feature-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1023px) {
+  .feature-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 639px) {
+  .feature-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .landing-nav-cta { display: none; }
+
+  .landing-nav { padding: 14px 16px !important; }
+
+  .landing-hero { padding: 100px 16px 48px !important; }
+
+  .hero-cta-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .hero-cta-buttons a {
+    text-align: center;
+  }
+
+  .landing-stripe {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    padding: 32px 20px !important;
+    gap: 16px !important;
+  }
+  .landing-stripe-number { display: none; }
+
+  .landing-categories {
+    min-height: unset !important;
+    padding: 48px 16px !important;
+    overflow: visible !important;
+  }
+  .landing-categories > div:first-child { margin-bottom: 24px; }
+
+  .why-us-section { padding: 60px 20px 60px !important; }
+  .why-us-section > div > div:first-child { margin-bottom: 48px !important; }
+  .landing-cta-section { padding: 120px 32px 100px !important; }
+  .landing-cta-box { padding: 40px 28px !important; gap: 24px !important; }
+  .cta-shadow { display: none !important; }
+
+  .landing-footer {
+    padding: 20px 16px !important;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .home-page-padding { padding: 20px 16px !important; }
+  .home-page-header { flex-direction: column !important; }
+  .home-filters { width: 100%; flex-direction: column !important; }
+  .home-filters > * { width: 100% !important; }
+  .home-search-bar { min-width: unset !important; width: 100%; }
+  .filter-trigger { width: 100% !important; }
+  .page-padding { padding: 20px 16px !important; }
+  .donation-grid { grid-template-columns: 1fr !important; }
+  .modal-inner { padding: 20px !important; }
+  .modal-backdrop { padding: 12px !important; }
+  .modal-buttons { flex-direction: column !important; }
+  .modal-buttons > button { flex: unset !important; width: 100% !important; }
 }

@@ -17,6 +17,7 @@ export interface DonationItem {
   createdAt: string;
   createdAtISO?: string;
   interestedCount: number;
+  userId?: string;
 }
 
 export interface ChatMessage {
@@ -26,3 +27,33 @@ export interface ChatMessage {
   isOwn: boolean;
   time: string;
 }
+
+export type Conversation = {
+  conversationId: string;
+  item: DonationItem;
+  msgs: ChatMessage[];
+  lastMsgAt: string;
+};
+
+export type NotificationItem = {
+  id: string;
+  type: 'message' | 'interest';
+  title: string;
+  body: string;
+  read: boolean;
+  createdAt: string;
+  conversationId?: string; // message notifications
+  donationId?: string;     // interest notifications
+};
+
+export type MsgToastData = {
+  senderName: string;
+  content: string;
+  conversationId: string;
+};
+
+export type InterestToastData = {
+  title: string;
+  body: string;
+  donationId: string;
+};
